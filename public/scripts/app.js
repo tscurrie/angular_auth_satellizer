@@ -1,7 +1,8 @@
 angular
   .module('AuthSampleApp', [
-    'ui.router'
+    'ui.router',
     // TODO #2: Add satellizer module
+    'satellizer'
   ])
   .controller('MainController', MainController)
   .controller('HomeController', HomeController)
@@ -132,17 +133,20 @@ function LoginController (Account) {
       .login(vm.new_user)
       .then(function(){
          // TODO #4: clear sign up form
+        from.reset(".form-group");
          // TODO #5: redirect to '/profile'
-      })
+         window.location = "/profile";
+      });
   };
 }
 
-SignupController.$inject = []; // minification protection
-function SignupController () {
+SignupController.$inject = ['Account']; // minification protection
+function SignupController (Account) {
   var vm = this;
   vm.new_user = {}; // form data
 
   vm.signup = function() {
+      debugger
     Account
       .signup(vm.new_user)
       .then(
@@ -189,11 +193,23 @@ function Account($http, $q, $auth) {
   self.updateProfile = updateProfile;
 
   function signup(userData) {
-    return (
-      // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
-      // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
-      // returns a promise
-    );
+    // return (
+    //   // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
+    //   // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
+    //   // returns a promise
+    // );
+    
+      debugger
+    $auth.signup(userData)
+    .then(
+      function (response) {
+        return(response);
+        console.log("allegedly, you have a user");
+
+      })
+    .catch(function (response) {
+
+    });
   }
 
   function login(userData) {
@@ -203,6 +219,18 @@ function Account($http, $q, $auth) {
         .then(
           function onSuccess(response) {
             //TODO #3: set token (https://github.com/sahat/satellizer#authsettokentoken)
+            var user = {
+              email: $scope.passwordAccount
+            };
+
+            $auth.login(user)
+              .then(
+                function (response){
+                  console.log("thomas said to put anything, so I put 'anything'")
+                })
+              .catch(function (response) {
+
+              });
           },
 
           function onError(error) {

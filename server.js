@@ -23,8 +23,8 @@ app.set('view engine', 'hbs');
 mongoose.connect('mongodb://localhost/angular_auth');
 
 // require User and Post models
-var User = require('./models/user');
-var Post = require('./models/post');
+// var User = require('./models/user');
+// var Post = require('./models/post');
 
 
 /*
